@@ -3,8 +3,14 @@
   require_once "pdo.php";
  if(!isset($_SESSION['id']))
   header('location: logout.php');
+
+
 if(!isset($_SESSION['cid']))header('location: allclass.php');
 $cid=$_SESSION['cid'];
+
+
+  
+
 $stmt = $pdo->prepare('SELECT * FROM class where id = :prof ');
     $stmt->execute(array(":prof" => $cid));
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -183,7 +189,9 @@ if(isset($_SESSION['error'])){
       
       <?php
         if($_SESSION['role']==1){
-          echo '<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          echo '
+<p class="text-center">If you want people to send request to join your class share <a href="sendreq.php?class='.$cid.'">this</a> link. </p>
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h3 class="h5">Create Notification</h1>
       </div>
         <form method="post">      

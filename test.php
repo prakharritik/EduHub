@@ -198,7 +198,15 @@ if(isset($_SESSION['error'])){
       if($_SESSION['role']===1)$li='managetest.php';
 else $li='instruc.php';
           foreach ($tests as $key) {
-            if($key['date']==date('Y-m-d') && $key['stime']<=date('H:i:s') && $key['etime']>=date('H:i:s'))echo '<a href="'.$li.'?tid='.$key['id'].'">test</a>';
+            $stmt = $pdo->prepare('SELECT * FROM marks where cid = :prof and tid=:ti and sid=:si ');
+    $stmt->execute(array(
+      ":prof" => $cid,
+      ":ti" =>$key['id'],
+      ":si" =>$_SESSION['id']
+    ));
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+if($row===false){
+            if($key['date']==date('Y-m-d') && $key['stime']<=date('H:i:s') && $key['etime']>=date('H:i:s'))echo '<a href="'.$li.'?tid='.$key['id'].'">test</a>';}
           }
       ?>
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -218,6 +226,7 @@ else $li='instruc.php';
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Past</h1>
       </div>
+      *If the test has not yet ended it will not be shown here.
       <?php
 if($_SESSION['role']===1)$li='managetest.php';
 else $li='score.php';

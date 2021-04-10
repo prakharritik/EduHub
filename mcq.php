@@ -1,11 +1,19 @@
 <?php
       session_start();include 'pdo.php';
-
+date_default_timezone_set('Asia/Kolkata');
     $stmt = $pdo->prepare('SELECT * FROM test where cid = :prof and id= :d');
     $stmt->execute(array(":prof" => $_SESSION['cid'],
         ":d"=>$_SESSION['quiz'])
-);$c=0;
+);
+
+    $c=0;
     $test = $stmt->fetch();
+    $time1=new DateTime($test['date'].' '.$test['etime']);
+
+    $timediff = $time1->diff(new DateTime());
+  //  echo $timediff->format('%y year %m month %d days %h hour %i minute %s second')."<br/>";
+        $tleft=$timediff->h*60+$timediff->i+$timediff->i/60;
+     //   echo $tleft;
     $stmt = $pdo->prepare('SELECT * FROM ques where tid = :prof');
     $stmt->execute(array(":prof" => $_SESSION['quiz']));
     $schools = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -20,12 +28,13 @@
             }
         }
 
-        $stmt = $pdo->prepare('INSERT INTO marks ( sid,tid, marks) VALUES (  :fn, :ln,:da,:ti)');
+        $stmt = $pdo->prepare('INSERT INTO marks ( sid,tid, marks,cid) VALUES (  :fn, :ln,:da,:ci)');
 
         $stmt->execute(array(
-                ':fn' => $email,
+                ':fn' => $_SESSION['id'],
                 ':ln' => $_SESSION['quiz'],
-                ':da' => $s)
+                ':da' => $s,
+                ':ci' => $_SESSION['cid'])
         );
         
         header("location:test.php");
@@ -117,29 +126,25 @@
    }
   
 });
-   if (sessionStorage.getItem("counter")) {
 
-        var value = sessionStorage.getItem("counter");
-      }
-else {
-      var value = 0;
-    }
     const timeSpan = document.getElementById('timer');
 
+const mins = <?php echo $tleft;?>;
+const now = new Date().getTime();
 
-const deadline =new Date('<?php echo $test['etime'];?>');
+const deadline = mins * 60 * 1000 + now ;
 
-console.log(deadline);
+
 setInterval(() => {
   var currentTime = new Date().getTime();
   var distance = deadline - currentTime;
   var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
   var seconds = Math.floor((distance % (1000 * 60)) / 1000);
   value= minutes * 60 * 1000 + seconds * 1000;
-sessionStorage.setItem("counter", value);
+
   timeSpan.innerHTML = minutes + 'min ' + seconds + 'seconds';
-  if(minutes<=0 && seconds<=0){sessionStorage.clear();
-    window.location.assign('home_student.php');
+  if(minutes<=0 && seconds<=0){
+    window.location.assign('test.php');
   }
 }, 500)
 

@@ -1,7 +1,46 @@
 <?php
   session_start();
+  require_once "pdo.php";
   if(!isset($_SESSION['id']))
   header('location: index.php?register=1');
+
+if ( isset($_POST['message']) && isset($_GET['class']) ) {
+    if ( strlen($_POST['message']) < 1 ) {
+        $_SESSION['error'] = "All fields are required";
+        header("Location: sendreq.php");
+        return;
+    }else { 
+      if(!is_numeric($_GET['class'])){
+        $_SESSION['error'] = "Invalid";
+        header("Location: sendreq.php");
+        return;
+      }
+
+  $stmt = $pdo->prepare('SELECT * FROM class where id = :prof ');
+    $stmt->execute(array(":prof" => $_GET['class']));
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+  if($row===false){
+    $_SESSION['success'] = "Wrong Credentials";
+        header("Location: sendreq.php");
+        return;
+  }
+
+  $stmt = $pdo->prepare('INSERT INTO request (message ,cid ,  uid) VALUES (  :fn, :ln, :em)');
+
+        $stmt->execute(array(
+                ':fn' => $_POST['message'],
+                ':ln' => $_GET['class'],
+                ':em' => $_SESSION['id'])
+        );        
+      
+        $_SESSION['success'] = "Successfully sent.";
+        header("Location: sendreq.php");
+        return;
+      
+
+    }  
+
+ }
 ?>
 
 <!doctype html>
@@ -18,6 +57,43 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 
     <style>
+      .member-card {
+  padding: 30px;
+  background-color: #393e46;
+  color: white;
+  transition: all 0.2s ease-in-out;
+  -webkit-box-shadow: 0 15px 30px -15px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0 15px 30px -15px rgba(0, 0, 0, 0.7);
+  -ms-box-shadow: 0 15px 30px -15px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 15px 30px -15px rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  letter-spacing: 2px;
+  margin: 10px;
+}
+.member-card img {
+  width: 64px;
+  height: 64px;
+}
+.member-card .member-card-details {
+  flex-grow: 1;
+  margin-left: 20px;
+}
+.member-card .member-card-details .member-position {
+  opacity: 0.7;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+.member-card .member-card-details .member-name {
+  color: white;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.member-card .btn-fired:hover {
+  color: red;
+  cursor: pointer;
+}
 
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -53,13 +129,13 @@
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="dash.php">
+            <a class="nav-link" aria-current="page" href="dash.php">
               <span data-feather="home"></span>
               Dashboard
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="allclass.php">
+            <a class="nav-link active" href="#">
               <span data-feather="file"></span>
               Your Classes
             </a>
@@ -85,19 +161,10 @@ if(isset($_SESSION['error'])){
   unset($_SESSION['error']);
 }
 ?>
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
-      </div>
-      <?php
-        if($_SESSION['role']==1)
-          echo '
-        <form action="createclass.php" method="post">      
-          <div class="mb-3">
-            <input type="text" name="class" class="form-control" placeholder="Class Name">
-          </div>
-          <button type="submit" class="btn btn-primary m-auto d-block">Create</button>
-        </form>';
-      ?>
+      <form method="post">
+        <textarea rows="4" name="message" class="form-control mt-5" placeholder="Write a few words."></textarea>
+        <input type="submit" class="btn btn-primary mt-2 d-block m-auto">
+      </form>
     </main>
   </div>
 </div>

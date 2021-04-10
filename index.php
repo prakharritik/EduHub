@@ -8,7 +8,7 @@ session_start();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title>Edu</title>
+    <title>EduHub</title>
 
     
 
@@ -43,8 +43,9 @@ session_start();
 <header>
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Carousel</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="index.php">
+    <img src="logo.svg" style="width: 200px;height: 50px;">
+  </a>      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -93,10 +94,9 @@ if(isset($_SESSION['error'])){
 
         <div class="container">
           <div class="carousel-caption text-start">
-            <h1>Example headline.</h1>
-            <p>Some representative placeholder content for the first slide of the carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
-          </div>
+            <h1>Free Education for all</h1>
+            <p>We try our best to provide free and quality education to learners</p>
+                      </div>
         </div>
       </div>
       <div class="carousel-item">
@@ -104,20 +104,19 @@ if(isset($_SESSION['error'])){
 
         <div class="container">
           <div class="carousel-caption">
-            <h1>Another example headline.</h1>
-            <p>Some representative placeholder content for the second slide of the carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
-          </div>
+            <h1>New Way to learn</h1>
+            <p>Now learn with experiencing things in the virtual world</p>
+                   </div>
         </div>
       </div>
       <div class="carousel-item">
         <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80">
 
         <div class="container">
-          <div class="carousel-caption text-end">
-            <h1>One more for good measure.</h1>
-            <p>Some representative placeholder content for the third slide of this carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+          <div class="carousel-caption text-end text-dark">
+            <h1>Learn from anywhere anytime from live digital classes</h1>
+            <p></p>
+            
           </div>
         </div>
       </div>
@@ -136,7 +135,7 @@ if(isset($_SESSION['error'])){
   ================================================== -->
   <!-- Wrap the rest of the page in another container to center all the content. -->
 
-  <div class="container marketing">
+<div class="container marketing">
 
     <!-- Three columns of text below the carousel -->
     <div class="row">
@@ -144,22 +143,22 @@ if(isset($_SESSION['error'])){
         <img class="bd-placeholder-img rounded-circle" width="200" height="200" src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80">
 
         <h2>Digital Classrooms</h2>
-        <p>Some representative placeholder content for the three columns of text below the carousel. This is the first column.</p>
-        <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+        <p>Online classes, Discussion Forum and Monitor Students Activities</p>
+        <p><a class="btn btn-secondary" href="dash.php">View details &raquo;</a></p>
       </div><!-- /.col-lg-4 -->
       <div class="col-lg-4">
         <img class="bd-placeholder-img rounded-circle" width="200" height="200" src="https://images.unsplash.com/photo-1576633587382-13ddf37b1fc1?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1052&q=80">
 
         <h2>AR/VR Tools</h2>
-        <p>Another exciting bit of representative placeholder content. This time, we've moved on to the second column.</p>
-        <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+        <p>Find yourself in the Virtual World of History and Astronomy</p>
+        <p><a class="btn btn-secondary" href="vr.html">View details &raquo;</a></p>
       </div><!-- /.col-lg-4 -->
       <div class="col-lg-4">
         <img class="bd-placeholder-img rounded-circle" width="200" height="200" src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1050&q=80">
 
         <h2>Free Content</h2>
-        <p>And lastly this, the third column of representative placeholder content.</p>
-        <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+        <p>Contents to read to grow up your Knowledge</p>
+        <p><a class="btn btn-secondary" href="facts.html">View details &raquo;</a></p>
       </div><!-- /.col-lg-4 -->
     </div><!-- /.row -->
 
@@ -170,11 +169,11 @@ if(isset($_SESSION['error'])){
 
     <div class="row featurette">
       <div class="col-md-7">
-        <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow your mind.</span></h2>
-        <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose here.</p>
+        <h2 class="featurette-heading">Digital <span class="text-muted">Classroom </span></h2>
+        <p class="lead">Exciting features to enhance interest in E-Learning with quizes. Also Exams can be conducted online with least difficulty and problems can be discussed in Discussion Forum.</p>
       </div>
       <div class="col-md-5">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+        <img src="./images/class.jpg" style="height: 90%; width: 90%;   border: 5px solid rgb(0, 0, 0);">
 
       </div>
     </div>
@@ -183,11 +182,11 @@ if(isset($_SESSION['error'])){
 
     <div class="row featurette">
       <div class="col-md-7 order-md-2">
-        <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
-        <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this layout would work with some actual real-world content in place.</p>
+        <h2 class="featurette-heading">VR/AR <span class="text-muted">Tools</span></h2>
+        <p class="lead">When Learning is through AR/VR, it becomes exciting, isn't it?   </p>
       </div>
       <div class="col-md-5 order-md-1">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+        <img src="./images/vr.jpg" style="height: 120%; width: 100%;   border: 5px solid rgb(0, 0, 0);">
 
       </div>
     </div>
@@ -196,11 +195,11 @@ if(isset($_SESSION['error'])){
 
     <div class="row featurette">
       <div class="col-md-7">
-        <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-        <p class="lead">And yes, this is the last block of representative placeholder content. Again, not really intended to be actually read, simply here to give you a better view of what this would look like with some actual content. Your content.</p>
+        <h2 class="featurette-heading">Free <span class="text-muted">Content</span></h2>
+        <p class="lead">Loads of Contents to solve doubts that too without a penny. </p>
       </div>
       <div class="col-md-5">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+        <img src="./images/learn.jpg" style="height: 110%; width: 100%;  border: 5px solid rgb(0, 0, 0);"> 
 
       </div>
     </div>

@@ -61,7 +61,7 @@ if ( isset($_POST['topic']) && isset($_POST['date']) && isset($_POST['stime']) &
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.82.0">
-    <title>Dashboard Template · Bootstrap v5.0</title>
+    <title>EduHub</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
@@ -90,7 +90,7 @@ if ( isset($_POST['topic']) && isset($_POST['date']) && isset($_POST['stime']) &
   <body>
     
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="index.php">
     <img src="logo.svg" style="width: 200px;height: 50px;">
   </a>
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -206,7 +206,7 @@ else $li='instruc.php';
     ));
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 if($row===false){
-            if($key['date']==date('Y-m-d') && $key['stime']<=date('H:i:s') && $key['etime']>=date('H:i:s'))echo '<a href="'.$li.'?tid='.$key['id'].'">test</a>';}
+            if($key['date']==date('Y-m-d') && $key['stime']<=date('H:i:s') && $key['etime']>=date('H:i:s'))echo 'Topic-'.$key['title'].'<br>Date- '.$key['date'].'<br>Start time- '.$key['stime'].'<br>End time- '.$key['etime'].'<a href="'.$li.'?tid='.$key['id'].'">Take test</a>';}
           }
       ?>
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -218,7 +218,7 @@ if($row===false){
 
             if($key['date']>date('Y-m-d') || ($key['date']==date('Y-m-d') && $key['stime']>=date('H:i:s'))){
               if($_SESSION['role']===1)echo '<a href="'.$li.'?tid='.$key['id'].'">test</a>';
-              else echo 'test';
+              else echo 'Topic-'.$key['title'].'<br>Date- '.$key['date'].'<br>Start time- '.$key['stime'].'<br>End time- '.$key['etime'];
               
             }
           }
@@ -231,7 +231,12 @@ if($row===false){
 if($_SESSION['role']===1)$li='managetest.php';
 else $li='score.php';
           foreach ($tests as $key) {
-            if(($key['date']<date('Y-m-d') )|| ($key['date']==date('Y-m-d') && $key['etime']<=date('H:i:s')))echo '<a href="'.$li.'?tid='.$key['id'].'">string</a>';
+            $stmt = $pdo->prepare('SELECT * FROM marks where tid = :prof and sid=:si');
+    $stmt->execute(array(":prof" => $key['id'],
+      ":si"=>$_SESSION['id']));
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if(($key['date']<date('Y-m-d') )|| ($key['date']==date('Y-m-d') && $key['etime']<=date('H:i:s')))echo '<br><br>Topic-'.$key['title'].'<br>Date- '.$key['date'].'<br>Start time- '.$key['stime'].'<br>End time- '.$key['etime'];
+            if($_SESSION['role']==0)echo'<br> Marks:'.$row['marks'];
           }
       ?>
     </main>

@@ -61,13 +61,15 @@ if ( isset($_POST['topic']) && isset($_POST['date']) && isset($_POST['time']) ) 
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.82.0">
-    <title>Dashboard Template · Bootstrap v5.0</title>
+    <title>EduHub</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 
     <style>
-     
+     th,td{
+      width: 100px;
+     }
       .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -90,7 +92,7 @@ if ( isset($_POST['topic']) && isset($_POST['date']) && isset($_POST['time']) ) 
   <body>
     
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="index.php">
     <img src="logo.svg" style="width: 200px;height: 50px;">
   </a>
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -191,31 +193,84 @@ if(isset($_SESSION['error'])){
           <button type="submit" class="btn btn-primary m-auto d-block">Create Live Class</button>
         </form>';
       ?>
+
+  
+  
+
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Current</h1>
       </div>
+<table><thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Topic</th>
+      <th scope="col">Start Time</th>
+      <th scope="col">End Time</th>
+      <th scope="col">Join</th>
+    </tr>
+  </thead><tbody>
       <?php
           foreach ($classes as $key) {
-            if($key['date']==date('Y-m-d') && $key['start_time']<=date('H:i:s') && $key['end_time']>=date('H:i:s'))echo '<a href="'.$key['link'].'">string</a>';
+            if($key['date']==date('Y-m-d') && $key['start_time']<=date('H:i:s') && $key['end_time']>=date('H:i:s'))echo '
+    <tr>
+      <th scope="row">1</th>
+      <td>'.$key['topic'].'</td>
+      <td>'.$key['start_time'].'</td>
+      <td>'.$key['end_time'].'</td><td><a href="'.$key['link'].'">join</a></td>
+    </tr>
+    
+  ';
           }
-      ?>
+      ?></tbody></table>
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Upcoming</h1>
-      </div>
+      </div><table><thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Topic</th>
+      <th scope="col">Start Time</th>
+      <th scope="col">End Time</th>
+      <th scope="col">Join</th>
+    </tr>
+  </thead><tbody>
       <?php
           foreach ($classes as $key) {
-            if($key['date']>=date('Y-m-d') && $key['start_time']>=date('H:i:s'))echo '<a href="'.$key['link'].'">string</a>';
+            if($key['date']>=date('Y-m-d') && $key['start_time']>=date('H:i:s'))echo '
+    <tr>
+      <th scope="row">1</th>
+      <td>'.$key['topic'].'</td>
+      <td>'.$key['start_time'].'</td>
+      <td>'.$key['end_time'].'</td><td><a href="'.$key['link'].'">join</a></td>
+    </tr>
+    
+  ';
           }
-      ?>
+      ?></tbody></table>
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Past</h1>
-      </div>
+      </div><table><thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Topic</th>
+      <th scope="col">Start Time</th>
+      <th scope="col">End Time</th>
+      <th scope="col">Join</th>
+    </tr>
+  </thead><tbody>
       <?php
 
           foreach ($classes as $key) {
-            if(($key['date']<date('Y-m-d') )|| ($key['date']==date('Y-m-d') && $key['end_time']<=date('H:i:s')))echo '<a href="'.$key['link'].'">string</a>';
+            if(($key['date']<date('Y-m-d') )|| ($key['date']==date('Y-m-d') && $key['end_time']<=date('H:i:s')))echo '
+    <tr>
+      <th scope="row">1</th>
+      <td>'.$key['topic'].'</td>
+      <td>'.$key['start_time'].'</td>
+      <td>'.$key['end_time'].'</td><td><a href="'.$key['link'].'">join</a></td>
+    </tr>
+    
+  ';
           }
-      ?>
+      ?></tbody></table>
     </main>
   </div>
 </div>

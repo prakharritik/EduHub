@@ -50,7 +50,7 @@ if ( isset($_POST['topic']) && isset($_POST['link']) && isset($_POST['deadline']
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.82.0">
-    <title>Dashboard Template · Bootstrap v5.0</title>
+    <title>EduHub</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
@@ -180,7 +180,7 @@ if(isset($_SESSION['error'])){
       </div>
       <?php
           foreach ($assignments as $key) {
-            if($key['deadline']>=date('Y-m-d') )echo '<a href="'.$key['link'].'">string</a>';
+            if($key['deadline']>=date('Y-m-d') )echo '<a href="'.$key['link'].'">link</a><br>deadline - '.$key['deadline'];
           }
       ?>
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -188,7 +188,7 @@ if(isset($_SESSION['error'])){
       </div>
       <?php
           foreach ($assignments as $key) {
-            if($key['deadline']<date('Y-m-d') )echo '<a href="'.$key['link'].'">string</a>';
+            if($key['deadline']<date('Y-m-d') )echo '<a href="'.$key['link'].'">link</a><br>deadline - '.$key['deadline'];
           }
       ?>
       

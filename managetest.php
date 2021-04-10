@@ -23,31 +23,53 @@ $stmt = $pdo->prepare('SELECT * FROM test where id = :prof and cid=:ci');
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 if($row===false)header('location: test.php');
 
-function save_record_image($image,$name = null){
-  $API_KEY = '7694dfa01b2beeb09d3f7271ec71dc33';
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, 'https://api.imgbb.com/1/upload?key='.$API_KEY);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_POST, 1);
-  $extension = pathinfo($image['name'],PATHINFO_EXTENSION);
-  $file_name = ($name)? $name.'.'.$extension : $image['name'] ;
-  $data = array('image' => base64_encode(file_get_contents($image['tmp_name'])), 'name' => $file_name);
-  curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-  $result = curl_exec($ch);
-  if (curl_errno($ch)) {
-      return 'Error:' . curl_error($ch);
-  }else{
-    return json_decode($result, true);
-  }
-  curl_close($ch);
-}
 
 $stmt = $pdo->prepare('SELECT * FROM ques where tid = :prof ');
 $stmt->execute(array(":prof" => $tid));
 $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+if (isset($_POST['editest'])) {
+ 
+if ( isset($_POST['topic']) && isset($_POST['date']) && isset($_POST['stime']) && isset($_POST['etime'])) {
+    if ( strlen($_POST['topic']) < 1 ) {
+        $_SESSION['error'] = "All fields are required";
+        header("Location: test.php");
+        return;
+    }
+    else if($_POST['date']<date("Y-m-d")){
+        $_SESSION['error'] = "Invalid Date";
+        header("Location: test.php");
+        return;
+    }
+    else if($_POST['date']===date("Y-m-d") && $_POST['stime']<date("H:i:s")){
+        $_SESSION['error'] = "Invalid Time";
+        header("Location: test.php");
+        return;
+    }
+    else if($_POST['stime']>$_POST['etime']){
+        $_SESSION['error'] = "Invalid Time";
+        header("Location: test.php");
+        return;
+    }
+    else {
+      $stmt = $pdo->prepare('Update test set title =:fn ,date=:ln,stime=:gn,etime=:mn, cid=:an where id=:ti');
+      $stmt->execute(array(
+                ':fn' => $_POST['topic'],
+                ':ln' => $_POST['date'],
+                ':gn' => $_POST['stime'],
+                ':mn' => $_POST['etime'],
+                ':an' => $cid,
+                ':ti' =>$tid)
+        );
+    $_SESSION['success'] = "Successfully edited. ";
+ header('location: managetest.php?tid='.$tid);
+ return;
+    }
+}}
 
-
+if(isset($_POST['editques'])){
+  $stmt = $pdo->prepare('DELETE  FROM ques where tid = :prof ');
+    $stmt->execute(array(":prof"=>$tid));
 for ($i = 1; $i <= 100; $i++) {
 
             if (!isset($_POST['q' . $i]) && !isset($_POST['option' . $i.'_6'])) continue;
@@ -57,28 +79,31 @@ for ($i = 1; $i <= 100; $i++) {
             $o3 = $_POST['option' . $i.'_3'];
             $o4 = $_POST['option' . $i.'_4'];
             $o5 = $_POST['option' . $i.'_5'];
-            if(!isset($_FILES['option' . $i.'_6'])){$o6="NULL";}
+            if(!isset($_POST['option' . $i.'_6'])){$o6="NULL";}
                 else{     
-                 $return =save_record_image($_FILES['option' . $i.'_6'],'test');         
-$o6=$return['data']['url'];
+$o6=$_POST['option' . $i.'_6'];
 
-            $stmt = $pdo->prepare('INSERT INTO ques (tid, ques, o1, o2, o3, o4, correct,file,cid)  VALUES ( :pid, :rank, :year, :dec,:ot,:of,:co,:fi,:gi,:gh)');
+            $stmt = $pdo->prepare('INSERT INTO ques (tid, ques, o1, o2, o3, o4, correct,file)  VALUES ( :pid, :rank, :year, :dec,:ot,:of,:co,:fi)');
 
             $stmt->execute(array(
-                    ':pid' => $id,
+                    ':pid' => $tid,
                     ':rank' => $_POST['q' . $i],
                     ':year' => $o1,
                     ':dec'=>$o2,
                     ':ot'=>$o3,
                     ':of'=>$o4,
                     ':co'=>$o5,
-                    ':fi'=> $o6,
-                    ':gi'=>$_SESSION['class'])
+                    ':fi'=> $o6)
             );
 
 
 
         }
+      }
+$_SESSION['success'] = "Successfully edited. ";
+ header('location: managetest.php?tid='.$tid);
+ return;
+    }
 ?>
 
 <!doctype html>
@@ -181,23 +206,36 @@ if(isset($_SESSION['error'])){
             <label for="recipient-name" class="col-form-label">End time:</label>
             <input type="time" name="etime" class="form-control" value='.$row['etime'].'>
           </div>
+          <input type="submit" class="btn btn-primary d-block m-auto mt-5" name="editest">
         </form>';
       ?>
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Questions</h1>
       </div>
-      <?php
-          foreach ($questions as $key) {
-            if($key['date']==date('Y-m-d') && $key['stime']<=date('H:i:s') && $key['etime']>=date('H:i:s'))echo '<a href="managetest.php?tid='.$key['id'].'">test</a>';
-          }
-      ?>
 
 
-<form method="post" enctype="multipart/form-data">
+<form method="post">
  <input type="submit" class="btn btn-primary m-auto d-block" id="addEdu" value="Add Question" style="font-size: 20px;">
-        <div id="edu_fields">
+ <div id="edu_fields">
+ <?php 
+ $countEdu=0;
+ foreach ($questions as $key ) {
+    $countEdu++;
+    echo'<div id="edu' .$countEdu. '"  class="mb-5 mt-5 p-5" style="outline: 4px dashed blue;"> 
+            <p class="text-center display-4">Ques:<br> <input type="text" class="form-control" name="q' .$countEdu. '" value="'.$key['ques'].'" placeholder="Enter question here" required/></p>
+            <button style="background-color:#111;" class="m-auto d-block" onclick="$(\'#edu'.$countEdu .'\').remove();return false;"><i class="fa fa-trash-o" style="font-size:48px;color:red"></i></button>
+            <br><input type="text" class="form-control" name="option' .$countEdu. '_1" value="'.$key['o1'].'" placeholder="Option 1" required/> 
+            <br><input type="text" class="form-control" name="option' .$countEdu. '_2" value="'.$key['o2'].'" placeholder="Option 2" required/> 
+            <br><input type="text" class="form-control" name="option' .$countEdu. '_3" value="'.$key['o3'].'" placeholder="Option 3" required/> 
+            <br><input type="text" class="form-control" name="option' .$countEdu. '_4" value="'.$key['o4'].'" placeholder="Option 4" required/> 
+            <br><p class="text-center">Enter correct (1-4):<input type="number" style="width:50px;" class="form-control d-block m-auto" name="option' .$countEdu. '_5" value="'.$key['correct'].'" min="1" max="4" required/> </p>
+            <p style="text-align:center;">Add Image(optional) (Publicly accessible)</p><input type="text" class="form-control mb-5" id="img" name="option' .$countEdu. '_6" value="'.$key['file'].'" required/>
+            </div> ';
+ }
+ ?>
+        
         </div>
-
+  <input type="submit" class="btn btn-primary d-block m-auto mt-5" name="editques">
 </form>
     </main>
   </div>
@@ -215,7 +253,7 @@ if(isset($_SESSION['error'])){
        
         $(document).ready(function () {
 
-  countEdu = 0;
+  countEdu = <?php echo $countEdu;?>
 
             $('#addEdu').click(function (event) {
                 event.preventDefault();
@@ -226,7 +264,7 @@ if(isset($_SESSION['error'])){
                 countEdu++;
                 window.console && console.log("Adding education " + countEdu);
                 $('#edu_fields').append(
-                    '<div id="edu' + countEdu + '"  class="mb-5 mt-5" style="outline: 4px dashed blue;"> \
+                    '<div id="edu' + countEdu + '"  class="mb-5 mt-5 p-5" style="outline: 4px dashed blue;"> \
             <p class="text-center display-4">Ques:<br> <input type="text" class="form-control" name="q' + countEdu + '" value="" placeholder="Enter question here" required/></p>\
             <button style="background-color:#111;" class="m-auto d-block" onclick="$(\'#edu'+countEdu +'\').remove();return false;"><i class="fa fa-trash-o" style="font-size:48px;color:red"></i></button>\
             <br><input type="text" class="form-control" name="option' + countEdu + '_1" value="" placeholder="Option 1" required/> \
@@ -234,7 +272,7 @@ if(isset($_SESSION['error'])){
             <br><input type="text" class="form-control" name="option' + countEdu + '_3" value="" placeholder="Option 3" required/> \
             <br><input type="text" class="form-control" name="option' + countEdu + '_4" value="" placeholder="Option 4" required/> \
             <br><p class="text-center">Enter correct (1-4):<input type="number" style="width:50px;" class="form-control d-block m-auto" name="option' + countEdu + '_5" value="" min="1" max="4" required/> </p>\
-            <p style="text-align:center;">Add Image(optional)</p><input type="file" id="img" name="option' + countEdu + '_6" accept="image/*" style="display:block;margin:auto;" >\
+            <p style="text-align:center;">Add Image(optional) (Publicly accessible)</p><input type="text" class="form-control mb-5" id="img" name="option' + countEdu + '_6" required/>\
             </div>'
                 );
 

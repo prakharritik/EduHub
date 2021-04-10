@@ -109,6 +109,12 @@ if ( isset($_POST['message']) ){
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link " href="discussion.php">
+              <span data-feather="book-open"></span>
+              Discussion
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link " href="test.php">
               <span data-feather="file"></span>
               Test

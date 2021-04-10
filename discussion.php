@@ -1,64 +1,53 @@
 <?php
-      session_start();include 'connect.php';
-      $name=$_SESSION['name'];
-        $email=$_SESSION['student_id'];
-        $institute_name=$_SESSION['institute_name'];
-                 if ($_GET['cid']!=$_SESSION['class']) {
-                    Print "<script>window.location.assign('home.php')</script>";
-            }
-        if(isset($_GET['cid']) && is_numeric($_GET['cid'])){}
-      else{
-      Print "<script>alert('Some error occured. Please login again')</script>";
-      Print "<script>window.location.assign('home.php')</script>";
-      exit();
-      }?><html>
-    <head>
-        <title>E-Svadhyaya/Doubt Sessions</title>
-		<meta charset='utf-8'>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-    <link    rel="stylesheet"    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"  />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons">
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-		<script type="text/javascript" src="js/mdb.min.js"></script>
-		<link rel="icon" href="pictures/log.jpeg" style="image/jpeg">
-        <link href='https://fonts.googleapis.com/css?family=Brawler' rel='stylesheet'>
-        <link rel="stylesheet" type="text/css" href="style2.css">
-        <link rel="stylesheet" type="text/css" href="styles.css">
-        <style>
+  session_start();
+  require_once "pdo.php";
+ if(!isset($_SESSION['id']))
+  header('location: logout.php');
+date_default_timezone_set('Asia/Kolkata');
+if(!isset($_SESSION['cid']))header('location: allclass.php');
+$cid=$_SESSION['cid'];
+$stmt = $pdo->prepare('SELECT * FROM class where id = :prof ');
+    $stmt->execute(array(":prof" => $cid));
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+if($row===false)header('location: allclass.php');
 
-	
-			.navbar{
-	width:100%;
-	font-size:18px;
-}
-h4{
-  color: white;
-}
+$stmt = $pdo->prepare('SELECT message,name,uid,time FROM discuss d join users u on d.uid=u.id where cid = :prof ');
+    $stmt->execute(array(":prof" => $cid));
+$messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            h2{
-                text-align:center;
-                margin:20%;
-                font-size:50px;
-                padding:10px 5px;
-                font-family:'Brawler';
-                box-sizing:border-box;
-                border:5px solid black;
-                border-radius:10px;
-				color:white;
-            }
-			.navbar{
-	width:100%;
-	font-size:18px;
+if ( isset($_POST['message'])  ) {
+    if ( strlen($_POST['message']) < 1 ) {
+
+    }
+    
+    else {
+      
+      $stmt = $pdo->prepare('INSERT INTO discuss (message,uid, cid) VALUES (  :fn, :gn,:an)');
+      $stmt->execute(array(
+                ':fn' => $_POST['message'],
+                ':gn' => $_SESSION['id'],
+                ':an' => $cid)
+        );
+
+    }
 }
-.a{
+?>
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.82.0">
+    <title>Dashboard Template · Bootstrap v5.0</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+    <style>
+     .a{
   border-radius:30px;color:black;padding-left:2%; background-color: #8ae9b3;
 background-image: linear-gradient(315deg, #8ae9b3 0%, #c8d6e5 74%);width:50%;margin-left:40%;
 border-top-right-radius:0px;
@@ -73,72 +62,133 @@ border-top-left-radius:0px;margin-left: 5%;
       width: 100%;
     }
   }
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
 
-        </style>
-    </head>
-    <body>
-    	<?php
-      if (isset($_POST['submit'])) {
-        $name=$_SESSION['name'];
-        $email=$_SESSION['student_id'];
-        $re=$_POST['review'];
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
 
-            if (isset($_POST['review']) && strlen($_POST['review'])>0) {
-              date_default_timezone_set('Asia/Kolkata');
-$x=date('d-m-Y H:i');
-              $insert_query="INSERT INTO discussion(t_username,message,cid,name,time,iid) VALUES('$email','$re','".$_GET['cid']."','$name','$x','$institute_name')";
-              $perform_insert_query=mysqli_query($con,$insert_query);
-            }
-                }
+    
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
+  </head>
+  <body>
+    
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">
+    <img src="logo.svg" style="width: 200px;height: 50px;">
+  </a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+</header>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-5 ">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link " aria-current="page" href="class.php">
+              <span data-feather="home"></span>
+              Class home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="liveclass.php">
+              <span data-feather="video"></span>
+              Live Classes
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="assignment.php">
+              <span data-feather="edit"></span>
+              Assignments
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="content.php">
+              <span data-feather="book-open"></span>
+              Study Material
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="discussion.php">
+              <span data-feather="book-open"></span>
+              Discussion
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="test.php">
+              <span data-feather="file"></span>
+              Test
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="allclass.php">
+              <span data-feather="layers"></span>
+              Back
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="logout.php">
+              <span data-feather="layers"></span>
+              Logout
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><?php echo $row['classname']; ?></h1>
+      </div>
+      <?php
+if(isset($_SESSION['success'])){
+  echo '<div class="alert alert-success" role="alert">'.$_SESSION['success'].'</div>';
+  unset($_SESSION['success']);
+}
+if(isset($_SESSION['error'])){
+  echo '<div class="alert alert-danger" role="alert">'.$_SESSION['error'].'</div>';
+  unset($_SESSION['error']);
+}
 ?>
-        <a href="#fo"><i class='fas fa-arrow-circle-down' style='font-size:48px;color:red;position: fixed;right: 10px;bottom: 10px;'></i></a>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<a class="navbar-brand" href="home.php"><img src="pictures/log3.jpg"  alt="logo.jpeg" style="width:80px;"></a>
-      <h1>E-Svadhyaya</h1>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="view_subject.php?cid=<?php echo $_SESSION['class'];?>">Back</a>
-					</li>
-                </ul>
-            </div>
-        </nav>
-          <?php 
-                      $q=mysqli_query($con,"SELECT * from discussion where cid=".$_GET['cid']." and iid='$institute_name'");
-   $num= mysqli_num_rows($q);
-   if($num>0){
-         $rev=mysqli_fetch_all($q);
-                   foreach ($rev as $key) {
-                     $a=$key[2];$b=$key[1];
-                     if($key[3]==$email){
-                     echo "<div class='a' style='' class='mr-5'><h6 style='color:black;font-weight:bold;display:inline;'>You</h6>&nbsp;&nbsp;&nbsp;&nbsp; ".$key[5]."<p style='margin-left:10%;font-size:20px;'>".$b."</p></div>";}
+           
+
+      <?php
+          foreach ($messages as $key) {
+            if($key['uid']==$_SESSION['id']){
+                     echo "<div class='a' class='mr-5'><h6 style='color:black;font-weight:bold;display:inline;'>You</h6>&nbsp;&nbsp;&nbsp;&nbsp; ".$key['time']."<p style='margin-left:10%;font-size:20px;'>".$key['message']."</p></div>";}
                     else{
-                      echo "<div class='b' style='' class='ml-5 mr-5'><h6 style='color:black;display:inline;'>".$a."</h6>&nbsp;&nbsp;&nbsp;&nbsp;".$key[5]."<p style='margin-left:10%;font-size:20px;'>".$b."</p></div>";
+                      echo "<div class='b' style='' class='ml-5 mr-5'><h6 style='color:black;display:inline;'>".$key['name']."</h6>&nbsp;&nbsp;&nbsp;&nbsp;".$key['time']."<p style='margin-left:10%;font-size:20px;'>".$key['message']."</p></div>";
                     }
-                   }}
-                ?>
-                     <div style="bottom: 20px;right: 0px;">
+          }
+      ?>  
+      <div style="bottom: 20px;right: 0px;">
                        <form method="POST" id="fo">
                         
-                                 <textarea id="subject" name="review" class="form-control mt-4" style="width:100%;background-color: #8ae9b3;
-background-image: linear-gradient(315deg, #8ae9b3 0%, #c8d6e5 74%);" rows="5" placeholder="Write a message"></textarea>
-<?php
-if($_SESSION['institute_name']!='d@demo.com'){
-                           echo'<input type="submit" name="submit" class="clicky mb-5" style="display: block;margin: auto;" >';}
-?>
+                                 <textarea id="subject" name="message" class="form-control mt-4" style="width:100%;background-color: #8ae9b3;
+background-image: linear-gradient(315deg, #8ae9b3 0%, #c8d6e5 74%);" rows="3" placeholder="Write a message"></textarea>
+<input type="submit"  class="btn btn-primary mb-5" style="display: block;margin: auto;" >
             </form>
                   </div>
-                   <?php 
-                    if($_SESSION['institute_name']=='d@demo.com'){
-                          echo'    <div class="alert alert-info animate__animated animate__fadeInRight">    <div class="container">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true"><i class="material-icons">clear</i></span>
-            </button>
-      Here the students can discuss with their peers and teachers.</div>
-        </div>';}
-        ?>
-    </body> 
+    </main>
+  </div>
+</div>
 
+
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+      <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="dashboard.js"></script>
+  </body>
 </html>

@@ -10,7 +10,11 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
  }
  else 
  {
-
+$stmt = $pdo->prepare('SELECT cid, uid,tid,id,doc,classname FROM class_student c join class cl on cl.id=c.cid where uid = :prof ');
+    $stmt->execute(array(
+      ":prof" => $_SESSION['id']
+  ));
+$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
  }
 ?>
 

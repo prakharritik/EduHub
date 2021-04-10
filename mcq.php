@@ -1,10 +1,8 @@
 <?php
       session_start();include 'pdo.php';
-      $name=$_SESSION['name'];
-        $email=$_SESSION['student_id'];
-        $inst=$_SESSION['iname'];
+
     $stmt = $pdo->prepare('SELECT * FROM test where cid = :prof and id= :d');
-    $stmt->execute(array(":prof" => $_SESSION['class'],
+    $stmt->execute(array(":prof" => $_SESSION['cid'],
         ":d"=>$_SESSION['quiz'])
 );$c=0;
     $test = $stmt->fetch();
@@ -21,42 +19,27 @@
 
             }
         }
-        if($_SESSION['institute_name']=='d@demo.com'){
-            $_SESSION['message']='Score:'.$s.'  Times Tab switched:'.$_POST['cheat'];
-        }
-        else{
-        $stmt = $pdo->prepare('INSERT INTO marks_'.$_SESSION['institute_name'].' ( sid,tid, marks,cheat) VALUES (  :fn, :ln,:da,:ti)');
+
+        $stmt = $pdo->prepare('INSERT INTO marks ( sid,tid, marks) VALUES (  :fn, :ln,:da,:ti)');
 
         $stmt->execute(array(
                 ':fn' => $email,
                 ':ln' => $_SESSION['quiz'],
-                ':da' => $s,
-                ':ti' => $_POST['cheat'])
+                ':da' => $s)
         );
-        }
-        header("location:home_student.php");
+        
+        header("location:test.php");
         return;
 }
         ?>
 <html>
     <head>
-        <title>E-Svadhyaya/Test</title>
+       
 		<meta charset='utf-8'>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-    <link    rel="stylesheet"    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"  />
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-		<script type="text/javascript" src="js/mdb.min.js"></script>
-		<link rel="icon" href="pictures/log.jpeg" style="image/jpeg">
-        <link href='https://fonts.googleapis.com/css?family=Brawler' rel='stylesheet'>
-        <link rel="stylesheet" type="text/css" href="style2.css">
-        <link rel="stylesheet" type="text/css" href="styles.css">
+	   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 <style>
     h4{
         color: #111;
@@ -77,7 +60,7 @@
 </head>
 
 <body class="noselect">
-    <div id='timer' class="text-center text-white"></div>
+    <div id='timer' class="text-center "></div>
     <div class="container mt-5">
         
     <div class="d-flex justify-content-center row">
@@ -143,13 +126,10 @@ else {
     }
     const timeSpan = document.getElementById('timer');
 
-const mins = <?php echo $test['duration'];?>;
-const now = new Date().getTime();
-if(value!=0)
-value=mins * 60 * 1000 -value;
-const deadline = mins * 60 * 1000 + now - value;
 
+const deadline =new Date('<?php echo $test['etime'];?>');
 
+console.log(deadline);
 setInterval(() => {
   var currentTime = new Date().getTime();
   var distance = deadline - currentTime;

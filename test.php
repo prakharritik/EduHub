@@ -6,6 +6,7 @@
 date_default_timezone_set('Asia/Kolkata');
 if(!isset($_SESSION['cid']))header('location: allclass.php');
 $cid=$_SESSION['cid'];
+
 $stmt = $pdo->prepare('SELECT * FROM class where id = :prof ');
     $stmt->execute(array(":prof" => $cid));
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -194,25 +195,34 @@ if(isset($_SESSION['error'])){
         <h1 class="h2">Current</h1>
       </div>
       <?php
+      if($_SESSION['role']===1)$li='managetest.php';
+else $li='instruc.php';
           foreach ($tests as $key) {
-            if($key['date']==date('Y-m-d') && $key['stime']<=date('H:i:s') && $key['etime']>=date('H:i:s'))echo '<a href="managetest.php?tid='.$key['id'].'">test</a>';
+            if($key['date']==date('Y-m-d') && $key['stime']<=date('H:i:s') && $key['etime']>=date('H:i:s'))echo '<a href="'.$li.'?tid='.$key['id'].'">test</a>';
           }
       ?>
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Upcoming</h1>
       </div>
       <?php
+      
           foreach ($tests as $key) {
-            if($key['date']>date('Y-m-d') || ($key['date']==date('Y-m-d') && $key['stime']>=date('H:i:s')))echo '<a href="managetest.php?tid='.$key['id'].'">test</a>';
+
+            if($key['date']>date('Y-m-d') || ($key['date']==date('Y-m-d') && $key['stime']>=date('H:i:s'))){
+              if($_SESSION['role']===1)echo '<a href="'.$li.'?tid='.$key['id'].'">test</a>';
+              else echo 'test';
+              
+            }
           }
       ?>
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Past</h1>
       </div>
       <?php
-
+if($_SESSION['role']===1)$li='managetest.php';
+else $li='score.php';
           foreach ($tests as $key) {
-            if(($key['date']<date('Y-m-d') )|| ($key['date']==date('Y-m-d') && $key['etime']<=date('H:i:s')))echo '<a href="managetest.php?tid='.$key['id'].'">string</a>';
+            if(($key['date']<date('Y-m-d') )|| ($key['date']==date('Y-m-d') && $key['etime']<=date('H:i:s')))echo '<a href="'.$li.'?tid='.$key['id'].'">string</a>';
           }
       ?>
     </main>

@@ -28,12 +28,13 @@ if ( isset($_POST['topic']) && isset($_POST['link']) && isset($_POST['deadline']
     }
     else {
       
-      $stmt = $pdo->prepare('INSERT INTO assign (title,deadline,link, cid) VALUES (  :fn, :ln,:gn,:an)');
+      $stmt = $pdo->prepare('INSERT INTO assign (title,deadline,link, cid,date) VALUES (  :fn, :ln,:gn,:an,:mn)');
       $stmt->execute(array(
                 ':fn' => $_POST['topic'],
                 ':ln' => $_POST['deadline'],
                 ':gn' => $_POST['link'],
-                ':an' => $cid)
+                ':an' => $cid,
+                ':mn' =>date("Y-m-d"))
         );
     $_SESSION['success'] = "Successfully created.";
  header('location: assignment.php');

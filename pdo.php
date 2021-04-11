@@ -9,14 +9,14 @@
         "pgsql:host=$HOST;port=$PORT;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD
     );
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);*/
-     $HOST = 'localhost';
+     $HOST = 'sql6.freesqldatabase.com';
     $PORT = 3306;
     //$DB_NAME = 'education';
     //$DB_USER = 'root';
     //$DB_PASSWORD = '';
-    $DB_NAME = '198212db2';
-    $DB_USER = '198212';
-    $DB_PASSWORD = 'mapdmmm';
+    $DB_NAME = 'sql6404852';
+    $DB_USER = 'sql6404852';
+    $DB_PASSWORD = 'DswZB9MfvN';
     $pdo = new PDO(
         "mysql:host=$HOST;port=$PORT;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD
         //"pgsql:host=$HOST;port=$PORT;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD

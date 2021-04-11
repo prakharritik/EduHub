@@ -9,11 +9,12 @@ if ( isset($_POST['class']) ) {
         header("Location: dash.php");
         return;
     }
-$stmt = $pdo->prepare('INSERT INTO class (classname, tid) VALUES (  :fn, :ln)');
+$stmt = $pdo->prepare('INSERT INTO class (classname, tid,doc) VALUES (  :fn, :ln,:mn)');
 
         $stmt->execute(array(
                 ':fn' => $_POST['class'],
-                ':ln' => $_SESSION['id'])
+                ':ln' => $_SESSION['id'],
+                ':mn' =>date("Y-m-d"))
         );
     $_SESSION['success'] = "Successfully created.";
  header('location: allclass.php');

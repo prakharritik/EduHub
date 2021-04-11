@@ -25,12 +25,13 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return;
   }
 
-  $stmt = $pdo->prepare('INSERT INTO request (message ,cid ,  uid) VALUES (  :fn, :ln, :em)');
+  $stmt = $pdo->prepare('INSERT INTO request (message ,cid ,  uid,date) VALUES (  :fn, :ln, :em, :mn)');
 
         $stmt->execute(array(
                 ':fn' => $_POST['message'],
                 ':ln' => $_GET['class'],
-                ':em' => $_SESSION['id'])
+                ':em' => $_SESSION['id'],
+                ':mn' =>date("Y-m-d"))
         );        
       
         $_SESSION['success'] = "Successfully sent.";

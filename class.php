@@ -27,10 +27,11 @@ if ( isset($_POST['message']) ){
         return;
     }
     else {
-      $stmt = $pdo->prepare('INSERT INTO noti (noti,cid) VALUES (  :fn,:gn)');
+      $stmt = $pdo->prepare('INSERT INTO noti (noti,cid,date) VALUES (  :fn,:gn,:mn)');
       $stmt->execute(array(
                 ':fn' => $_POST['message'],
-                ':gn' => $cid)
+                ':gn' => $cid,
+                ':mn' =>date("Y-m-d H:i:s"))
         );
     $_SESSION['success'] = "Successfully created.";
  header('location: class.php');

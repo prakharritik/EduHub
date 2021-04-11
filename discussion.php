@@ -22,11 +22,12 @@ if ( isset($_POST['message'])  ) {
     
     else {
       
-      $stmt = $pdo->prepare('INSERT INTO discuss (message,uid, cid) VALUES (  :fn, :gn,:an)');
+      $stmt = $pdo->prepare('INSERT INTO discuss (message,uid, cid,time) VALUES (  :fn, :gn,:an,:mn)');
       $stmt->execute(array(
                 ':fn' => $_POST['message'],
                 ':gn' => $_SESSION['id'],
-                ':an' => $cid)
+                ':an' => $cid,
+                ':mn' =>date("Y-m-d H:i:s"))
         );
       header('location: discussion.php');
     }

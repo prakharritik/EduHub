@@ -24,11 +24,12 @@ if ( isset($_POST['topic']) && isset($_POST['link'])  ) {
     
     else {
       
-      $stmt = $pdo->prepare('INSERT INTO book (title,link, cid) VALUES (  :fn, :gn,:an)');
+      $stmt = $pdo->prepare('INSERT INTO book (title,link, cid,date) VALUES (  :fn, :gn,:an,:mn)');
       $stmt->execute(array(
                 ':fn' => $_POST['topic'],
                 ':gn' => $_POST['link'],
-                ':an' => $cid)
+                ':an' => $cid,
+                ':mn' =>date("Y-m-d"))
         );
     $_SESSION['success'] = "Successfully created.";
  header('location: content.php');

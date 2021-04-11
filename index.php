@@ -158,7 +158,7 @@ if(isset($_SESSION['error'])){
 
         <h2>Free Content</h2>
         <p>Contents to read to grow up your Knowledge</p>
-        <p><a class="btn btn-secondary" href="facts.html">View details &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="home.html">View details &raquo;</a></p>
       </div><!-- /.col-lg-4 -->
     </div><!-- /.row -->
 

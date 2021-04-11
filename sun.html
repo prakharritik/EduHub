@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+	<title>SUN</title>
+	<script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+</head>
+
+<body>
+<a-scene>
+	<a-assets>
+		<img id="sun" src="./assets/sun.png">
+		<img id="space" src="./assets/space.jpg">
+		<a-asset-item id="portal" src="./assets/portal/portal.glb"></a-asset-item>
+	</a-assets>
+
+	<a-camera rotation="0 0 0" position="0 0 180" wasd-controls="fly:true; acceleration:1000">
+		<a-cursor intersection-spawn="Event:click; mixin:voxel;" color="#00FF00"></a-cursor>
+	
+	</a-camera>
+
+	<a-sky src="#space" radius="9000"></a-sky>
+	<a-sphere id="sunid" position="0 0 0" scale="90 90 90" material="src:#sun;" animation="property:rotation; to:0 360 0; loop:true; easing:linear; dur:5000;"></a-sphere>
+	<a-entity id="portal_Link" gltf-model="#portal" position="273.876 140 300.734" rotation="180.000 -100.760 180.000" scale="40 40 40"></a-entity>
+</a-scene>
+<script>
+	document.querySelector('#portal_Link').addEventListener('mouseenter',()=>{
+		location.href="sun_data.html";
+	});
+</script>
+</body>
+<script src="./scripts/details.js"></script>
+</html>

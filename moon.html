@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+	<script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
+	<link rel="icon" href="./images/logo.jpeg" type="image/jpeg" >
+</head>
+
+<body>
+<a-scene>
+  <a-assets>
+
+	<a-asset-item id="moon" src="./assets/moon/scene.gltf"></a-asset-item>
+    <a-asset-item id="vikram" src="./assets/moon/vikram/scene.gltf"></a-asset-item>
+	<a-asset-item id="pragyan" src="./assets/moon/pragyan/scene.gltf"></a-asset-item>
+	<a-asset-item id="portal" src="./assets/portal/portal.glb"></a-asset-item>
+  </a-assets>
+  
+    <a-sky radius="6000" color="#000000"></a-sky>
+	<a-entity light="type:directional; color:#FFF; intensity:4.030;" position="-0.500 40.763 1">
+	<a-entity id="rig" position="3.728 2.008 3.255">
+    <a-camera rotation="0 0 0" wasd-controls="fly:true;acceleration:500;" >
+		<a-cursor intersection-spawn="Event:click; mixin:voxel;" color="#FFFFFF"></a-cursor>
+	</a-camera>
+	</a-entity>
+
+	<a-entity id="park" gltf-model="#moon" position="-4.813 0.537 0"   rotation="0 0 0"></a-entity>
+	<!--ROVER-->
+	<a-entity id="pragyan" gltf-model="#pragyan" position="-9.226 -32.655 -172.14058"   rotation="0 -37.914 0" scale="0.3 0.3 0.3"></a-entity>
+	<a-entity id="vikram" gltf-model="#vikram" position="101.040 -15.462 43.472"   rotation="0 -133.516 0" scale="0.3 0.3 0.3"></a-entity>
+	<a-entity id="portal_Link" gltf-model="#portal" position="273.876 140 300.734" rotation="180.000 -100.760 180.000" scale="40 40 40"></a-entity>
+
+</a-scene>
+<script>
+	document.querySelector('#portal_Link').addEventListener('mouseenter',()=>{
+		location.href="index.php";
+	});
+</script>
+</body>
+
+</html>

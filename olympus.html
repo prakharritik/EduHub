@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Olympus</title>
+	
+	<script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+	<link rel="icon" href="./images/logo.jpeg" type="image/jpeg" >
+</head>
+
+<body>
+<a-scene>
+	<a-assets>
+		<a-asset-item id="olympus" src="./assets/olympus/gltf.glb"></a-asset-item>
+		<img id="space" src="./assets/space.jpg">
+		<a-asset-item id="portal" src="./assets/portal/portal.glb"></a-asset-item>
+
+	</a-assets>
+	<a-camera rotation="0 0 0" position="0 0 180"  wasd-controls="fly:true; acceleration:100">
+		<a-cursor intersection-spawn="Event:click; mixin:voxel;" color="#00FF00"></a-cursor>
+	
+	</a-camera>
+
+
+	<a-sky src="#space" radius="9000" ></a-sky>
+	<a-entity id="olympus_model" scale="2 2 2" gltf-model="#olympus" position="-380.202 -697.045 -115.284"  ></a-entity>
+	<a-entity id="portal_Link" gltf-model="#portal" position="273.876 140 300.734" rotation="180.000 -100.760 180.000" scale="40 40 40"></a-entity>
+	
+</a-scene>
+<script>
+	document.querySelector('#portal_Link').addEventListener('mouseenter',()=>{
+		location.href="olympus_data.html";
+	});
+</script>
+</body>	
+</html>

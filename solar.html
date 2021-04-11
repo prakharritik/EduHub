@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Solar System</title>
+	<meta charset="UTF-8">
+	<script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+	<link rel="icon" href="./images/logo.jpeg" type="image/jpeg" >
+</head>
+
+<body>
+<a-scene>
+	<a-assets>
+		<img id="space" src="./assets/space.jpg">
+		<img id="sun" src="./assets/sun.png">
+		<img id="sunM" src="./assets/sunmap.jpg">
+		<img id="mercury" src="./assets/mercury.jpg">
+		<img id="venus" src="./assets/venus.jpg">
+		<img id="earth" src="./assets/earth.jpg">
+		<img id="mars" src="./assets/mars.jpg">
+		<img id="jupiter" src="./assets/jupiter.jpg">
+		<img id="saturn" src="./assets/saturn.jpg">
+		<img id="uranus" src="./assets/uranus.jpg">
+		<img id="neptune" src="./assets/neptune.jpg">
+		<img id="pluto" src="./assets/pluto.jpg">
+		<a-asset-item id="portal" src="./assets/portal/portal.glb"></a-asset-item>
+	</a-assets>
+
+	<a-camera rotation="0 0 0" position="0 60 500" wasd-controls="fly:true; acceleration:1000">
+		<a-cursor intersection-spawn="Event:click; mixin:voxel;" color="#0000FF"></a-cursor>
+	</a-camera>
+
+	<a-sky src="#space" radius="9000"></a-sky>
+	<a-sphere id="sunid" position="0 0 0" scale="50 50 50" material="src:#sun;" animation="property:rotation; to:0 360 0; loop:true; easing:linear; dur:5000;"></a-sphere>
+	
+	<a-entity id="Mercury_id" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop:true; easing:linear; dur: 6000">
+	<a-sphere id="Mercury" position="80 0 0" scale="10 10 10" material="src:#mercury;" animation="property:rotation; to:0 360 0; loop:true; easing:linear; dur:3000;"></a-sphere>
+	</a-entity>
+	
+	<a-entity id="Venus_id" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop:true; easing:linear; dur: 6200">
+	<a-sphere id="Venus" position="130 0 0" scale="15 15 15" material="src:#venus;" animation="property:rotation; to:0 360 0; loop:true; easing:linear; dur:3000;"></a-sphere>
+	</a-entity>
+	
+	<a-entity id="Earth_id" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop:true; easing:linear; dur: 6300">
+	<a-sphere id="Earth" position="190 0 0" scale="20 20 20" material="src:#earth;" animation="property:rotation; to:0 360 0; loop:true; easing:linear; dur:3000;"></a-sphere>
+	</a-entity>
+	
+	<a-entity id="Mars_id" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop:true; easing:linear; dur: 6250">
+	<a-sphere id="Mars" position="250 0 0" scale="20 20 20" material="src:#mars;" animation="property:rotation; to:0 360 0; loop:true; easing:linear; dur:3000;"></a-sphere>
+	</a-entity>
+	
+	<a-entity id="Jupiter_id" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop:true; easing:linear; dur: 6270">
+	<a-sphere id="Jupiter" position="320 0 0" scale="30 30 30" material="src:#jupiter;" animation="property:rotation; to:0 360 0; loop:true; easing:linear; dur:3000;"></a-sphere>
+	</a-entity>
+	
+	<a-entity id="Saturn_id" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop:true; easing:linear; dur: 6550">
+	<a-sphere id="Saturn" position="410 0 0" scale="25 25 25" material="src:#saturn;" animation="property:rotation; to:0 360 0; loop:true; easing:linear; dur:3000;">
+		<a-ring fog radius-inner="1.1" radius-outer="1.6" rotation="-90 0 0"></a-ring>
+	</a-sphere>
+	</a-entity>
+	
+	<a-entity id="Uranus_id" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop:true; easing:linear; dur: 6800">
+	<a-sphere id="Uranus" position="490 0 0" scale="23 23 23" material="src:#uranus;" animation="property:rotation; to:0 360 0; loop:true; easing:linear; dur:3000;"></a-sphere>
+	</a-entity>
+	
+	<a-entity id="Neptune_id" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop:true; easing:linear; dur: 7430">
+	<a-sphere id="Neptune" position="555 0 0" scale="21 21 21" material="src:#neptune;" animation="property:rotation; to:0 360 0; loop:true; easing:linear; dur:3000;"></a-sphere>
+	</a-entity>
+	
+
+	<a-entity id="portal_Link" gltf-model="#portal" position="273.876 171.442 533.734" rotation="180.000 -89.760 180.000" scale="40 40 40"></a-entity>
+
+</a-scene>
+<script src="./script/solarsystem.js"></script>	
+
+</body>
+</html>
